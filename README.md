@@ -93,7 +93,7 @@ Please see below the description of the different columns of the xlsx file:
        The position of the variant used with a prefix *c.* should be the position of the variant regarding the ATG position based one the coding sequence.
        In other words, the position on a sequence WITHOUT introns. ANNOVAR reports the position on the sequence WITH introns.
 - **orfSNVs**: *in_frame* or *out_of_frame* to determine whether there is a frame shift between the new ATG and the reference one.
-- **Ratio_length_pred_obs**: ratio between the predicted vs the observed length of the protein (<1 for a shorter protein and >1 for a longer protein)
+- **Ratio_length_pred_obs**: ratio between the predicted vs the observed length of the protein (<1 for a shorter protein and >1 for a longer protein). In case of several transcripts, only one value is given. That corresponding to the predicted length the closest to the observed length, i.e the ratio closest to 1.
 - **NewAALength**: predicted length of the new protein in amino acids.
 - **MORFEE**: MORFEE VCF-style annotation
 
