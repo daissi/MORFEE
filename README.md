@@ -13,7 +13,7 @@ MORFEE has some R packages dependencies which are available on
 [Bioconductor](https://www.bioconductor.org/) repositories and uses the
 [GENCODE](https://www.gencodegenes.org/) database.
 
-When using MORFEE, please cite our [publication](https://www.biorxiv.org/content/10.1101/2020.03.29.012054v1).
+When using MORFEE, please cite our [publication](https://doi.org/10.1101/2020.03.29.012054).
 
 ## Installation
 ### From CRAN/Bioconductor
