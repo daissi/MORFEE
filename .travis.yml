@@ -1,0 +1,7 @@
+language: r
+
+dist: bionic
+
+r:
+  - bioc-release
+  - bioc-devel
