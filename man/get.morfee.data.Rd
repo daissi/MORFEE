@@ -4,10 +4,14 @@
 \alias{get.morfee.data}
 \title{get data used by MORFEE}
 \usage{
-get.morfee.data(path = tempdir(), force = FALSE)
+get.morfee.data(path = tempdir(), GRCh = 37, GENCODE = NA, force = FALSE)
 }
 \arguments{
 \item{path}{is a path to the temporary folder to store downloaded databases}
+
+\item{GRCh}{is the version of Human reference genome to download (i.e. 37 or 38)}
+
+\item{GENCODE}{is the version of GENCODE database to download (i.e. 19 or NA)}
 
 \item{force}{a boolean wheter the function should check if the database is already stored before to download them}
 }

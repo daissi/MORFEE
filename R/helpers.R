@@ -64,6 +64,8 @@ parse_GeneDetail.refGene <- function(x){
 #' get data used by MORFEE
 #'
 #' @param path is a path to the temporary folder to store downloaded databases
+#' @param GRCh is the version of Human reference genome to download (i.e. 37 or 38)
+#' @param GENCODE is the version of GENCODE database to download (i.e. 19 or NA)
 #' @param force a boolean wheter the function should check if the database is already stored before to download them
 #'
 #' @importFrom utils download.file
@@ -74,7 +76,14 @@ parse_GeneDetail.refGene <- function(x){
 #'
 #' @export
 #'
-get.morfee.data <- function(path=tempdir(), force=FALSE){
+get.morfee.data <- function(path=tempdir(), GRCh=37, GENCODE=NA, force=FALSE){
+
+  if(!(GRCh %in% c(37,38))){
+    stop('The argument "GRCh" must be equal to "37" or "38"')
+  }
+  if(!(is.na(GENCODE) | GENCODE==19)){
+    stop('The argument "GENCODE" must be equal to "NA" or "19"')
+  }
 
   MORFEE.DATA <- list()
 
@@ -82,10 +91,29 @@ get.morfee.data <- function(path=tempdir(), force=FALSE){
   MORFEE.DATA[["DB_PATH_ANNOVAR"]] <- paste0(MORFEE.DATA[["DB_PATH"]],"ANNOVAR","/") # Path to the ANNOVAR DB
   MORFEE.DATA[["DB_PATH_GENCODE"]] <- paste0(MORFEE.DATA[["DB_PATH"]],"GENCODE","/") # Path to the GENCODE DB
 
-  MORFEE.DATA[["GENCODE_URL"]] <- "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_33/GRCh37_mapping/"
-  MORFEE.DATA[["GENCODE_FILE_ANNOT"]] <- "gencode.v33lift37.annotation.gff3.gz" # Position codon start + strand
-  MORFEE.DATA[["GENCODE_FILE_METAD"]] <- "gencode.v33lift37.metadata.RefSeq.gz" # NM code
-  MORFEE.DATA[["GENCODE_FILE_SEQUE"]] <- "GRCh37.primary_assembly.genome.fa.gz" # Whole Human Sequence
+  MORFEE.DATA[["GRCh"]] <- GRCh
+
+  if(GRCh==37){
+    if(is.na(GENCODE)){
+      MORFEE.DATA[["GENCODE"]] <- 33
+      MORFEE.DATA[["GENCODE_URL"]] <- "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_33/GRCh37_mapping/"
+      MORFEE.DATA[["GENCODE_FILE_ANNOT"]] <- "gencode.v33lift37.annotation.gff3.gz" # Position codon start + strand
+      MORFEE.DATA[["GENCODE_FILE_METAD"]] <- "gencode.v33lift37.metadata.RefSeq.gz" # NM code
+      MORFEE.DATA[["GENCODE_FILE_SEQUE"]] <- "GRCh37.primary_assembly.genome.fa.gz" # Whole Human Sequence
+    }else{
+      MORFEE.DATA[["GENCODE"]] <- 19
+      MORFEE.DATA[["GENCODE_URL"]] <- "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_19/"
+      MORFEE.DATA[["GENCODE_FILE_ANNOT"]] <- "gencode.v19.annotation.gff3.gz" # Position codon start + strand
+      MORFEE.DATA[["GENCODE_FILE_METAD"]] <- "gencode.v19.metadata.RefSeq.gz" # NM code
+      MORFEE.DATA[["GENCODE_FILE_SEQUE"]] <- "GRCh37.p13.genome.fa.gz" # Whole Human Sequence
+    }
+  }else if(GRCh==38){
+    MORFEE.DATA[["GENCODE"]] <- 33
+    MORFEE.DATA[["GENCODE_URL"]] <- "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_33/"
+    MORFEE.DATA[["GENCODE_FILE_ANNOT"]] <- "gencode.v33.annotation.gff3.gz" # Position codon start + strand
+    MORFEE.DATA[["GENCODE_FILE_METAD"]] <- "gencode.v33.metadata.RefSeq.gz" # NM code
+    MORFEE.DATA[["GENCODE_FILE_SEQUE"]] <- "GRCh38.primary_assembly.genome.fa.gz" # Whole Human Sequence
+  }
 
   MORFEE.DATA[["SEQ_INIT"]] <- Biostrings::DNAString("ATG") # START codon
   MORFEE.DATA[["SEQ_STOP"]] <- Biostrings::DNAStringSet(c("TAA", "TAG", "TGA")) # STOP codon
