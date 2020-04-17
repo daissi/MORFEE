@@ -30,3 +30,4 @@ Imports:
     GenomicScores,
     GenomicRanges
 RoxygenNote: 7.1.0
+biocViews: GenomeAnnotation
