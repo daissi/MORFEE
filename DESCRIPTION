@@ -1,12 +1,22 @@
 Package: MORFEE
 Title: Mutation on Open Reading FramE annotation
 Version: 0.0.20200329
-Authors@R: 
+Authors@R: c(
     person(given = "Dylan",
            family = "Aïssi",
            role = c("aut", "cre"),
            email = "dylan.aissi@u-bordeaux.fr",
-           comment = c(ORCID = "0000-0002-5858-6468"))
+           comment = c(ORCID = "0000-0002-5858-6468")),
+    person(given = "Omar",
+           family = "Soukarieh",
+           role = "aut",
+           email = "omar.soukarieh@inserm.fr",
+           comment = c(ORCID = "0000-0003-4923-4353")),
+    person(given = "David-Alexandre",
+           family = "Trégouët",
+           role = "aut",
+           email = "david-alexandre.tregouet@inserm.fr",
+           comment = c(ORCID = "0000-0001-9084-7800")))
 Description: Annotation of mutation which generate new ATG
  From a VCF file annotated by ANNOVAR, MORFEE annotates mutation
  which generate new potential start codon (i.e. ATG).

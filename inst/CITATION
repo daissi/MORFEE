@@ -1,0 +1,26 @@
+citHeader("To cite MORFEE in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{MORFEE}: a new tool for detecting and annotating single nucleotide variants creating premature ATG codons from VCF files",
+  author       = personList(as.person("Dylan Aïssi"),
+                   as.person("Omar Soukarieh"),
+                   as.person("Carole Proust"),
+                   as.person("Beatrice Jaspard-Vinassa"),
+                   as.person("Pierre Fautrad"),
+                   as.person("Manal Ibrahim-Kosta"),
+                   as.person("Felipe Leal-Valentim"),
+                   as.person("Maguelonne Roux"),
+                   as.person("Delphine Bacq-Daian"),
+                   as.person("Robert Olaso"),
+                   as.person("Jean-François Deleuze"),
+                   as.person("Pierre-Emmanuel Morange"),
+                   as.person("David-Alexandre Trégouët")),
+  journal      = "bioRxiv",
+  year         = "2020",
+  doi          = "10.1101/2020.03.29.012054",
+  url          = "https://doi.org/10.1101/2020.03.29.012054",
+  textVersion  =
+  paste("Aïssi, Soukarieh, et al.",
+        "MORFEE: a new tool for detecting and annotating single nucleotide variants creating premature ATG codons from VCF files.",
+        "URL https://doi.org/10.1101/2020.03.29.012054")
+)
