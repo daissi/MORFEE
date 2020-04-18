@@ -12,7 +12,7 @@ Description: Annotation of mutation which generate new ATG
  which generate new potential start codon (i.e. ATG).
 Depends: R (>= 3.5)
 License: GPL (>=3)
-URL: https://github.com/daissi/MORFEE
+URL: https://daissi.github.io/MORFEE/
 BugReports: https://github.com/daissi/MORFEE/issues
 Encoding: UTF-8
 LazyData: true
