@@ -42,7 +42,7 @@ is.annovar.installed <- function(path_to_annovar=NULL, open_browser=FALSE){
 download.annovar.db <- function(force=FALSE, path_annovar_db="DB_annovar"){
 
   if(!is.annovar.installed()){
-    stop()
+    stop("ANNOVAR is not installed!")
   }
 
 
