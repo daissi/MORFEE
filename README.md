@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/daissi/MORFEE.svg?branch=master)](https://travis-ci.org/daissi/MORFEE)
+[![R build status](https://github.com/daissi/MORFEE/workflows/R-CMD-check/badge.svg)](https://github.com/daissi/MORFEE/actions)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+
+## MORFEE
 **MORFEE** (**Mutation on Open Reading FramE annotation**) is a tool
 (R package) that, from a VCF file, detects and annotates single nucleotide
 variants creating premature ATG codons.
