@@ -5,10 +5,16 @@
 \title{download ANNOVAR DB for annotation
 https://doc-openbio.readthedocs.io/projects/annovar/en/latest/user-guide/download/#additional-databases}
 \usage{
-download.annovar.db(force = FALSE, path_annovar_db = "DB_annovar")
+download.annovar.db(
+  force = FALSE,
+  path_to_annovar = NA,
+  path_annovar_db = "DB_annovar"
+)
 }
 \arguments{
 \item{force}{a boolean wheter the function should check if the database is already stored before to download them}
+
+\item{path_to_annovar}{define path to ANNOVAR binaries}
 
 \item{path_annovar_db}{a path where the database will be stored}
 }

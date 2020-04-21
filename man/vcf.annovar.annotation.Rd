@@ -7,6 +7,7 @@
 vcf.annovar.annotation(
   my_raw_vcf,
   path_results = "MORFEE_results",
+  path_to_annovar = NA,
   path_annovar_db = "DB_annovar"
 )
 }
@@ -14,6 +15,8 @@ vcf.annovar.annotation(
 \item{my_raw_vcf}{a string to define name of raw VCF to annotate}
 
 \item{path_results}{a path where the annoated VCF will be saved}
+
+\item{path_to_annovar}{define path to ANNOVAR binaries}
 
 \item{path_annovar_db}{a path where the database will be stored}
 }

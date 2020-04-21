@@ -5,7 +5,7 @@
 \title{check if ANNOVAR is installed
 otherwise open the website of ANNOVAR}
 \usage{
-is.annovar.installed(path_to_annovar = NULL, open_browser = FALSE)
+is.annovar.installed(path_to_annovar = NA, open_browser = FALSE)
 }
 \arguments{
 \item{path_to_annovar}{define path to ANNOVAR binaries}
