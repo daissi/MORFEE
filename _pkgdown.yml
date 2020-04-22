@@ -1,1 +1,17 @@
-destination: docs
+url: https://daissi.github.io/MORFEE/
+
+reference:
+- title: Annotation with ANNOVAR
+  contents:
+  - is.annovar.installed
+  - download.annovar.db
+  - vcf.annovar.annotation
+- title: Annotation with MORFEE
+  contents:
+  - get.morfee.data
+  - parse_mutation
+  - parse_GeneDetail.refGene
+  - combine.vcf.slot
+  - morfee.annotation
+  - vcf_2_ods
+  - vcf_2_xlsx

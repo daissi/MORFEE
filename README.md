@@ -1,7 +1,10 @@
+
+<!-- badges: start -->
 [![Build Status](https://travis-ci.org/daissi/MORFEE.svg?branch=master)](https://travis-ci.org/daissi/MORFEE)
 [![R build status](https://github.com/daissi/MORFEE/workflows/R-CMD-check/badge.svg)](https://github.com/daissi/MORFEE/actions)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://zenodo.org/badge/doi/10.1101/2020.03.29.012054.svg)](https://doi.org/10.1101/2020.03.29.012054)
+<!-- badges: end -->
 
 ## MORFEE
 **MORFEE** (**Mutation on Open Reading FramE annotation**) is a tool
