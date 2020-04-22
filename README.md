@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/daissi/MORFEE.svg?branch=master)](https://travis-ci.org/daissi/MORFEE)
 [![R build status](https://github.com/daissi/MORFEE/workflows/R-CMD-check/badge.svg)](https://github.com/daissi/MORFEE/actions)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![DOI](https://zenodo.org/badge/doi/10.1101/2020.03.29.012054.svg)](https://doi.org/10.1101/2020.03.29.012054)
 
 ## MORFEE
 **MORFEE** (**Mutation on Open Reading FramE annotation**) is a tool
@@ -21,7 +22,7 @@ MORFEE has some R packages dependencies which are available on
 When using MORFEE, please cite our [publication](https://doi.org/10.1101/2020.03.29.012054).
 
 ## Installation
-### From CRAN/Bioconductor
+### From Bioconductor
 Not yet available!
 
 ### From GitHub
