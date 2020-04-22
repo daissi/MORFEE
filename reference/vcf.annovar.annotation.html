@@ -123,6 +123,7 @@
     <pre class="usage"><span class='fu'>vcf.annovar.annotation</span>(
   <span class='no'>my_raw_vcf</span>,
   <span class='kw'>path_results</span> <span class='kw'>=</span> <span class='st'>"MORFEE_results"</span>,
+  <span class='kw'>path_to_annovar</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>path_annovar_db</span> <span class='kw'>=</span> <span class='st'>"DB_annovar"</span>
 )</pre>
 
@@ -136,6 +137,10 @@
     <tr>
       <th>path_results</th>
       <td><p>a path where the annoated VCF will be saved</p></td>
+    </tr>
+    <tr>
+      <th>path_to_annovar</th>
+      <td><p>define path to ANNOVAR binaries</p></td>
     </tr>
     <tr>
       <th>path_annovar_db</th>
@@ -155,7 +160,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Dylan Aïssi.</p>
+  <p>Developed by Dylan Aïssi, Omar Soukarieh, David-Alexandre Trégouët.</p>
 </div>
 
 <div class="pkgdown">

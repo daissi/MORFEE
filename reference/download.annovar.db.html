@@ -125,7 +125,11 @@ https://doc-openbio.readthedocs.io/projects/annovar/en/latest/user-guide/downloa
 https://doc-openbio.readthedocs.io/projects/annovar/en/latest/user-guide/download/#additional-databases</p>
     </div>
 
-    <pre class="usage"><span class='fu'>download.annovar.db</span>(<span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path_annovar_db</span> <span class='kw'>=</span> <span class='st'>"DB_annovar"</span>)</pre>
+    <pre class="usage"><span class='fu'>download.annovar.db</span>(
+  <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>path_to_annovar</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>path_annovar_db</span> <span class='kw'>=</span> <span class='st'>"DB_annovar"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,6 +137,10 @@ https://doc-openbio.readthedocs.io/projects/annovar/en/latest/user-guide/downloa
     <tr>
       <th>force</th>
       <td><p>a boolean wheter the function should check if the database is already stored before to download them</p></td>
+    </tr>
+    <tr>
+      <th>path_to_annovar</th>
+      <td><p>define path to ANNOVAR binaries</p></td>
     </tr>
     <tr>
       <th>path_annovar_db</th>
@@ -152,7 +160,7 @@ https://doc-openbio.readthedocs.io/projects/annovar/en/latest/user-guide/downloa
 
       <footer>
       <div class="copyright">
-  <p>Developed by Dylan Aïssi.</p>
+  <p>Developed by Dylan Aïssi, Omar Soukarieh, David-Alexandre Trégouët.</p>
 </div>
 
 <div class="pkgdown">

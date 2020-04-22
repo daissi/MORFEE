@@ -72,15 +72,20 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
+
+<div id="morfee" class="section level2">
+<h2 class="hasAnchor">
+<a href="#morfee" class="anchor"></a>MORFEE</h2>
 <p><strong>MORFEE</strong> (<strong>Mutation on Open Reading FramE annotation</strong>) is a tool (R package) that, from a VCF file, detects and annotates single nucleotide variants creating premature ATG codons.</p>
 <p>MORFEE algorithm is written in R language and can run on all operating systems which have an R interpreter (including Linux, macOS and Windows). MORFEE starts with a minimal VCF file (i.e. with at least the <em>chr</em>, <em>position</em>, <em>reference allele</em> and <em>alternate allele</em> fields) as an input, but can also work with already <a href="http://annovar.openbioinformatics.org/">ANNOVAR</a>-annotated (<a href="https://doi.org/10.1093/nar/gkq603">Wang et al., 2010</a>) VCF files. MORFEE has some R packages dependencies which are available on <a href="https://cran.r-project.org/">CRAN</a> or <a href="https://www.bioconductor.org/">Bioconductor</a> repositories and uses the <a href="https://www.gencodegenes.org/">GENCODE</a> database.</p>
 <p>When using MORFEE, please cite our <a href="https://doi.org/10.1101/2020.03.29.012054">publication</a>.</p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div id="from-cranbioconductor" class="section level3">
+<div id="from-bioconductor" class="section level3">
 <h3 class="hasAnchor">
-<a href="#from-cranbioconductor" class="anchor"></a>From CRAN/Bioconductor</h3>
+<a href="#from-bioconductor" class="anchor"></a>From Bioconductor</h3>
 <p>Not yet available!</p>
 </div>
 <div id="from-github" class="section level3">
@@ -260,19 +265,36 @@ vcf_2_xlsx(my_vcf_morfee_NEW, file="VCF_example.hg19_multianno.morfee_anno_NEW.x
 <li>GPL (&gt;=3)</li>
 </ul>
 </div>
+<div class="citation">
+<h2>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html">Citing MORFEE</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Dylan Aïssi <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5858-6468" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Omar Soukarieh <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4923-4353" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>David-Alexandre Trégouët <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-9084-7800" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/daissi/MORFEE"><img src="https://travis-ci.org/daissi/MORFEE.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://github.com/daissi/MORFEE/actions"><img src="https://github.com/daissi/MORFEE/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://doi.org/10.1101/2020.03.29.012054"><img src="https://zenodo.org/badge/doi/10.1101/2020.03.29.012054.svg" alt="DOI"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Dylan Aïssi.</p>
+  <p>Developed by Dylan Aïssi, Omar Soukarieh, David-Alexandre Trégouët.</p>
 </div>
 
 <div class="pkgdown">
