@@ -170,12 +170,8 @@ vcf.annovar.annotation <- function(my_raw_vcf, path_results="MORFEE_results", pa
     table_annovar <- paste(path_to_annovar,"table_annovar.pl", sep="/")
   }
 
-  if(!dir.exists(path_annovar_db)){
-    dir.create(path_annovar_db)
-  }
-
-  if(!dir.exists(path_annovar_db)){
-    dir.create(path_annovar_db)
+  if(!dir.exists(path_results)){
+    dir.create(path_results)
   }
 
   my_annovar_cmd_Z <- paste(table_annovar, my_raw_vcf, paste0(path_annovar_db,"/"),
