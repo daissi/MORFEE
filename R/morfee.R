@@ -16,10 +16,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
   myvcf_annot_info <- info(myvcf_annot)
   myvcf_annot_info$MORFEE <- NA
   myvcf_annot_header <- rbind(info(header(myvcf_annot)),
-                              data.frame(Number = ".", Type = "String", Description = "New ATG annotation provided by MORFEE") )
+                              data.frame(Number = ".", Type = "String", Description = "New ATG annotation provided by MORFEE", stringsAsFactors = FALSE) )
 
   rownames(myvcf_annot_header) <- c(rownames(info(header(myvcf_annot))),"MORFEE")
   info(header(myvcf_annot)) <- myvcf_annot_header
+  info(myvcf_annot) <- myvcf_annot_info
 
   i <- NULL
   for(i in 1:nrow(myvcf_annot_info)){
