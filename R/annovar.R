@@ -184,6 +184,8 @@ vcf.annovar.annotation <- function(my_raw_vcf, path_results="MORFEE_results", pa
                               "-remove -protocol refGene,gwasCatalog,avsnp150,clinvar_20190305,gnomad211_genome,dbnsfp35a -operation gx,r,f,f,f,f -nastring . -vcfinput",
                               "-xref",paste(path_annovar_db,"morfee.lof_metrics.by_gene.txt", sep="/"))
 
+  print(my_annovar_cmd_Z)
+
   system(my_annovar_cmd_Z)
 
 }
