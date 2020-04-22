@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://daissi.github.io/MORFEE//index.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/combine.vcf.slot.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/download.annovar.db.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/get.morfee.data.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/is.annovar.installed.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/morfee.annotation.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/parse_GeneDetail.refGene.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/parse_mutation.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/vcf.annovar.annotation.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/vcf_2_ods.html</loc>
+  </url>
+  <url>
+    <loc>https://daissi.github.io/MORFEE//reference/vcf_2_xlsx.html</loc>
+  </url>
+</urlset>
