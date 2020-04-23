@@ -156,6 +156,20 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         # Find codon start in reference sequence
         stats_orig <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna)
 
+
+          # Found all STOP
+          for(j in 1:length(morfee_data[["SEQ_STOP"]])){
+
+            stats_stop_orig_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna)
+
+            if(j==1){
+              stats_stop_orig <- stats_stop_orig_j
+            }else{
+              stats_stop_orig <- c(stats_stop_orig, stats_stop_orig_j)
+            }
+          }
+
+
         my_ref_allele <- as.character(subseq(my_cdna, start=my_snp_pos_cdna, end=my_snp_pos_cdna))
         if(my_ref_allele!=my_nm_list[nm,5]){
           message("Mismatch between alleles")
@@ -216,6 +230,18 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           # Find codon start in reference sequence
           stats_orig <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna)
 
+          # Found all STOP
+          for(j in 1:length(morfee_data[["SEQ_STOP"]])){
+
+            stats_stop_orig_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna)
+
+            if(j==1){
+              stats_stop_orig <- stats_stop_orig_j
+            }else{
+              stats_stop_orig <- c(stats_stop_orig, stats_stop_orig_j)
+            }
+          }
+
           my_ref_allele <- as.character(subseq(my_cdna, start=my_snp_pos_cdna, end=my_snp_pos_cdna))
           if(my_ref_allele!=my_nm_list[nm,5]){
             message("Mismatch between alleles")
@@ -237,8 +263,23 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         # Find codon start in mutated sequence
         stats_mut <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna_updated)
 
+        # Found all STOP
+        for(j in 1:length(morfee_data[["SEQ_STOP"]])){
+
+          stats_stop_mut_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna_updated)
+
+          if(j==1){
+            stats_stop_mut <- stats_stop_mut_j
+          }else{
+            stats_stop_mut <- c(stats_stop_mut, stats_stop_mut_j)
+          }
+        }
+
         # Comparer codon start in reference and mutated sequences
         new.atg <- ranges(stats_mut)[!c(ranges(stats_mut) %in% ranges(stats_orig)) ,]
+
+        # Compare stop codons in reference and mutated sequences
+        del.stop <- ranges(stats_stop_orig)[!c(ranges(stats_stop_orig) %in% ranges(stats_stop_mut)) ,]
 
         if(length(new.atg)>0){
           message("New ATG detected!")
@@ -294,6 +335,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           myvcf_annot_info[i,"MORFEE"] <- new_field
 
         }# END new ATG
+
+        if(length(del.stop)>0){
+          message("STOP deletion detected!")
+
+        }
       }
   }
   info(myvcf_annot) <- myvcf_annot_info
