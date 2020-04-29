@@ -339,6 +339,12 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         if(length(del.stop)>0){
           message("STOP deletion detected!")
 
+          print( paste("For",my_gene,"-",my_nm,"and",my_snp))
+#          print(paste0(" - Deletion of a STOP codon detected at: ",del.stop.distance," from the main ATG!"))
+#          print( paste(" - new ATG is",in.frame,"to the main ATG!"))
+#          print( paste(" - new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
+          cat("\n\n")
+
         }
       }
   }
