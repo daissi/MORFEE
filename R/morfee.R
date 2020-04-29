@@ -157,7 +157,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         stats_orig <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna)
 
 
-          # Found all STOP
+          # Found all STOP in reference sequence
           for(j in 1:length(morfee_data[["SEQ_STOP"]])){
 
             stats_stop_orig_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna)
@@ -230,7 +230,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           # Find codon start in reference sequence
           stats_orig <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna)
 
-          # Found all STOP
+          # Found all STOP in reference sequence
           for(j in 1:length(morfee_data[["SEQ_STOP"]])){
 
             stats_stop_orig_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna)
@@ -263,7 +263,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         # Find codon start in mutated sequence
         stats_mut <- matchPattern(morfee_data[["SEQ_INIT"]], my_cdna_updated)
 
-        # Found all STOP
+        # Found all STOP in mutated sequence
         for(j in 1:length(morfee_data[["SEQ_STOP"]])){
 
           stats_stop_mut_j <- matchPattern(morfee_data[["SEQ_STOP"]][[j]], my_cdna_updated)
@@ -339,12 +339,32 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         if(length(del.stop)>0){
           message("STOP deletion detected!")
 
-          print( paste("For",my_gene,"-",my_nm,"and",my_snp))
-#          print(paste0(" - Deletion of a STOP codon detected at: ",del.stop.distance," from the main ATG!"))
-#          print( paste(" - new ATG is",in.frame,"to the main ATG!"))
-#          print( paste(" - new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
-          cat("\n\n")
+          # Test whether an ATG is upstream and in-frame with STOP
+          # if true:  orf.stop <- TRUE
+          # if false: orf.stop <- FALSE
 
+          # Use stats_orig, but could use stats_mut
+#         uatg <- ranges(stats_orig)[c(ranges(stats_orig) < ranges(del.stop)) ,]
+          uatg <- start(stats_orig)[ c(start(del.stop) - start(stats_orig)) > 0]
+
+          uatg <- c(21, uatg)# DEBUG
+#         uatg <- c(20, 21)# DEBUG
+
+          uatg_in.frame <- uatg[((start(del.stop) - uatg) %% 3)==0]
+
+          if(length(uatg_in.frame)>0){
+
+            # TODO: compute distance and length
+
+
+
+            message(" -  uSTOP deletion in ORF detected!")
+            print( paste("For",my_gene,"-",my_nm,"and",my_snp))
+#            print(paste0(" - Deletion of a STOP codon detected at: ",del.stop.distance," from the main ATG!"))
+#            print( paste(" - new ATG is",in.frame,"to the main ATG!"))
+#            print( paste(" - new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
+            cat("\n\n")
+          }
         }
       }
   }
