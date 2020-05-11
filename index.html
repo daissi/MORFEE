@@ -91,7 +91,7 @@
 <div id="from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#from-github" class="anchor"></a>From GitHub</h3>
-<pre><code><a href="https://rdrr.io/pkg/devtools/man">library("devtools")
+<pre><code><a href="https://devtools.r-lib.org//reference">library("devtools")
 install_github("daissi/MORFEE")</a></code></pre>
 </div>
 </div>
@@ -105,9 +105,9 @@ install_github("daissi/MORFEE")</a></code></pre>
 <li>
 <strong>GeneDetail.refGene</strong> to extract transcript ID.</li>
 </ul>
-<div id="a-annotation-with-annovar-directly" class="section level3">
+<div id="a--annotation-with-annovar-directly" class="section level3">
 <h3 class="hasAnchor">
-<a href="#a-annotation-with-annovar-directly" class="anchor"></a>A. Annotation with ANNOVAR directly</h3>
+<a href="#a--annotation-with-annovar-directly" class="anchor"></a>A. Annotation with ANNOVAR directly</h3>
 <pre><code># Annotation with ANNOVAR
 table_annovar.pl \
         inst/extdata/VCF_example.vcf \
@@ -117,9 +117,9 @@ table_annovar.pl \
         -operation gx,r,f,f,f,f -nastring . -vcfinput \
         -xref ${PATH_ANNOVAR_DB}/morfee.lof_metrics.by_gene.txt</code></pre>
 </div>
-<div id="b-annotation-with-annovar-through-morfee" class="section level3">
+<div id="b--annotation-with-annovar-through-morfee" class="section level3">
 <h3 class="hasAnchor">
-<a href="#b-annotation-with-annovar-through-morfee" class="anchor"></a>B. Annotation with ANNOVAR through MORFEE</h3>
+<a href="#b--annotation-with-annovar-through-morfee" class="anchor"></a>B. Annotation with ANNOVAR through MORFEE</h3>
 <pre><code><a href="https://rdrr.io/pkg/VariantAnnotation/man">library(VariantAnnotation)
 library(MORFEE)
 
