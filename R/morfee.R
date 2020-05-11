@@ -42,7 +42,10 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
     my_nm_list <- parse_GeneDetail.refGene(my_refgene)
 
     my_snp_pos_geno <- start(ranges(rowRanges(myvcf_annot)))[i]
-    my_chr <- paste0("chr",as.character(seqnames(rowRanges(myvcf_annot))[i]))
+    my_chr <- as.character(seqnames(rowRanges(myvcf_annot))[i])
+    if(length(grep("chr",my_chr))<1){
+          my_chr <- paste0("chr",my_chr)
+    }
     my_gencode_seque <- morfee_data[["GENCODE_SEQ"]][which(morfee_data[["GENCODE_SEQ_ORDER"]]==my_chr)]
 
     # Loop for each transcript (row)
