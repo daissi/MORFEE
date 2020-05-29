@@ -282,7 +282,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         del.stop <- ranges(stats_stop_orig)[!c(ranges(stats_stop_orig) %in% ranges(stats_stop_mut)) ,]
 
         if(length(new.atg)>0){
-          message("New ATG detected!")
+          print("New ATG detected!")
 
           if(my_init_codon_end < my_stop_codon_end){
             my.strand <- "forward"
@@ -337,7 +337,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         }# END new ATG
 
         if(length(del.stop)>0){
-          message("STOP deletion detected!")
+          print("STOP deletion detected!")
 
           # Test whether an ATG is upstream and in-frame with STOP
           # if true:  orf.stop <- TRUE
@@ -353,16 +353,19 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               del.stop.distance <- my_init_codon_5_cdna - (start(del.stop)[1])
 
-              message(" -  uSTOP deletion in ORF detected!")
+              print(" -  uSTOP deletion in ORF detected!")
               print( paste("For",my_gene,"-",my_nm,"and",my_snp))
               print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
+              print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
+                           " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
 
             # several uATG could be present, so the protein length will be different
             for(uatg_i in uatg_in_frame){
             # uatg_i = uatg_in_frame[1]
 
               # Find next stop in frame with uatg_i
-              first_new_stop <- start(stats_stop_orig)[ ((uatg_i - start(stats_stop_orig)) %%3)==0][1]
+#             first_new_stop <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0][1]
+              first_new_stop <- min(start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0])
 
               # TODO: compute distance and length
               stop.generated.prot.length <- (first_new_stop-uatg_i)/3
@@ -383,9 +386,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
                 overlapping.prot <- paste("not overlapping")
               }
 
+              stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
+
               print( paste(" --"))
               print( paste(" --- using uATG at",-uatg_used,"to the main ATG!"))
-              print( paste(" --- using STOP at",-stop_used,"to the main ATG!"))
+              print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
               print( paste(" --- new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
               print( paste(" --- new generated protein is",overlapping.prot,"with the reference one"))
 
