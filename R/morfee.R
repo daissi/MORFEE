@@ -365,7 +365,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               # Find next stop in frame with uatg_i
 #             first_new_stop <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0][1]
-              first_new_stop <- min(start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0])
+              uatg_in_frame <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0 ]
+              first_new_stop <- min( uatg_in_frame[uatg_in_frame > uatg_i] )
 
               # TODO: compute distance and length
               stop.generated.prot.length <- (first_new_stop-uatg_i)/3
