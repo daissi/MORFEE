@@ -349,9 +349,9 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           uatg_in_frame <- uatg[((start(del.stop) - uatg) %% 3)==0]
 
-          if(length(uatg_in_frame)>0){
+          del.stop.distance <- my_init_codon_5_cdna - (start(del.stop)[1])
 
-              del.stop.distance <- my_init_codon_5_cdna - (start(del.stop)[1])
+          if(length(uatg_in_frame)>0){
 
               print(" -  uSTOP deletion in ORF detected!")
               print( paste("For",my_gene,"-",my_nm,"and",my_snp))
@@ -397,6 +397,14 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
             }
             cat("\n\n")
+
+          }else{
+
+              print(" -  uSTOP deletion detected BUT without an upstream ATG (not in an ORF region)!")
+              print( paste("For",my_gene,"-",my_nm,"and",my_snp))
+              print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
+              print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
+                           " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
 
           }
         }
