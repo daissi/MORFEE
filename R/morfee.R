@@ -396,8 +396,6 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print( paste(" --- new generated protein is",overlapping.prot,"with the reference one"))
 
             }
-            cat("\n\n")
-
           }else{
 
               print(" -  uSTOP deletion detected BUT without an upstream ATG (not in an ORF region)!")
@@ -407,6 +405,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
                            " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
 
           }
+          cat("\n\n")
         }
       }
   }
