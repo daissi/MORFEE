@@ -282,7 +282,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         del.stop <- ranges(stats_stop_orig)[!c(ranges(stats_stop_orig) %in% ranges(stats_stop_mut)) ,]
 
         if(length(new.atg)>0){
-          print("New ATG detected!")
+          message("New ATG detected!")
 
           if(my_init_codon_end < my_stop_codon_end){
             my.strand <- "forward"
@@ -320,11 +320,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           generated.prot.length <- (my_first_stop-1)/3
           ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
 
-          print( paste("For",my_gene,"-",my_nm,"and",my_snp))
-          print(paste0(" - New uATG detected at: ",new.atg.distance," from the main ATG!"))
-          print( paste(" - new uATG is",in.frame,"to the main ATG!"))
-          print( paste(" - new generated protein has a length of",generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
-          cat("\n\n")
+          message( paste("For",my_gene,"-",my_nm,"and",my_snp))
+          message(paste0(" - New uATG detected at: ",new.atg.distance," from the main ATG!"))
+          message( paste(" - new uATG is",in.frame,"to the main ATG!"))
+          message( paste(" - new generated protein has a length of",generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
+          message("\n\n")
 
 
           # Update myvcf_annot_info
@@ -337,14 +337,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         }# END new ATG
 
         if(length(del.stop)>0){
-          print("STOP deletion detected!")
-
-          # Test whether an ATG is upstream and in-frame with STOP
-          # if true:  orf.stop <- TRUE
-          # if false: orf.stop <- FALSE
 
           # Use stats_orig, but could use stats_mut
-#         uatg <- ranges(stats_orig)[c(ranges(stats_orig) < ranges(del.stop)) ,]
           uatg <- start(stats_orig)[ c(start(del.stop) - start(stats_orig)) > 0]
 
           uatg_in_frame <- uatg[((start(del.stop) - uatg) %% 3)==0]
@@ -353,7 +347,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           if(length(uatg_in_frame)>0){
 
-              print(" -  uSTOP deletion in ORF detected!")
+              print(       "STOP deletion detected!")
+              print(       " -  uSTOP deletion in ORF detected!")
               print( paste("For",my_gene,"-",my_nm,"and",my_snp))
               print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
               print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
@@ -364,11 +359,10 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
             # uatg_i = uatg_in_frame[1]
 
               # Find next stop in frame with uatg_i
-#             first_new_stop <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0][1]
               uatg_in_frame <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0 ]
               first_new_stop <- min( uatg_in_frame[uatg_in_frame > uatg_i] )
 
-              # TODO: compute distance and length
+              # Compute distance and length
               stop.generated.prot.length <- (first_new_stop-uatg_i)/3
               ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
 
@@ -389,23 +383,25 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
-              print( paste(" --"))
+              print(       " --")
               print( paste(" --- using uATG at",-uatg_used,"to the main ATG!"))
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
               print( paste(" --- new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
               print( paste(" --- new generated protein is",overlapping.prot,"with the reference one"))
+              cat("\n\n")
 
             }
           }else{
 
-              print(" -  uSTOP deletion detected BUT without an upstream ATG (not in an ORF region)!")
-              print( paste("For",my_gene,"-",my_nm,"and",my_snp))
-              print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
-              print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
-                           " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
+              message(       "STOP deletion detected!")
+              message(       " -  uSTOP deletion detected BUT without an upstream ATG (not in an ORF region)!")
+              message( paste("For",my_gene,"-",my_nm,"and",my_snp))
+              message(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
+              message( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
+                             " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
+              message("\n\n")
 
           }
-          cat("\n\n")
         }
       }
   }
