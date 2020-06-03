@@ -337,6 +337,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         }# END new ATG
 
         if(length(del.stop)>0){
+## # Test gene orientation
+## if(my_init_codon_end < my_stop_codon_end){
 
           # Use stats_orig, but could use stats_mut
           uatg <- start(stats_orig)[ c(start(del.stop) - start(stats_orig)) > 0]
@@ -347,12 +349,20 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           if(length(uatg_in_frame)>0){
 
+            if(my_init_codon_end < my_stop_codon_end){
+              my.strand <- "forward"
+            }else{
+              my.strand <- "reverse"
+            }
+
               print(       "STOP deletion detected!")
               print(       " -  uSTOP deletion in ORF detected!")
               print( paste("For",my_gene,"-",my_nm,"and",my_snp))
               print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
               print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
                            " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
+              print( paste(" --- Gene direction:",my.strand))
+
 
             # several uATG could be present, so the protein length will be different
             for(uatg_i in uatg_in_frame){
@@ -388,9 +398,10 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
               print( paste(" --- new generated protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
               print( paste(" --- new generated protein is",overlapping.prot,"with the reference one"))
-              cat("\n\n")
-
+              print(paste0(" - DEBUG: i=",i," , nm=",nm))
             }
+            cat("\n\n")
+
           }else{
 
               message(       "STOP deletion detected!")
@@ -402,6 +413,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               message("\n\n")
 
           }
+## # END Test gene orientation
+## }else{
+##
+## }
+## # END Test gene orientation
         }
       }
   }
