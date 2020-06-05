@@ -337,8 +337,6 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         }# END new ATG
 
         if(length(del.stop)>0){
-## # Test gene orientation
-## if(my_init_codon_end < my_stop_codon_end){
 
           # Use stats_orig, but could use stats_mut
           uatg <- start(stats_orig)[ c(start(del.stop) - start(stats_orig)) > 0]
@@ -377,12 +375,9 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
 
               uatg_used <- (my_init_codon_5_cdna - uatg_i)
-              stop_used <- (my_init_codon_5_cdna - first_new_stop)
+              stop_used <- (my_init_codon_5_cdna - 1 - first_new_stop)
 
               if(stop_used<0){
-#                my_stop_codon_5_cdna <- (my_init_codon_5_cdna + (ref.prot.length*3))
-#                total_length <- (my_stop_codon_5_cdna-uatg_used)
-#                overlapping.perc <- (stop_used/total_length)*100
 
                 overlapping.perc <- (-stop_used/(ref.prot.length*3))*100
 
@@ -413,12 +408,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               message("\n\n")
 
           }
-## # END Test gene orientation
-## }else{
-##
-## }
-## # END Test gene orientation
-        }
+        }# END del STOP
       }
   }
   info(myvcf_annot) <- myvcf_annot_info
