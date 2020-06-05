@@ -391,8 +391,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print(       " --")
               print( paste(" --- using uATG at",-uatg_used,"to the main ATG!"))
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
-              print( paste(" --- new predicted protein has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa) for the main protein"))
-              print( paste(" --- new predicted protein is",overlapping.prot,"with the reference one"))
+              print( paste(" --- new predicted ORF has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa) for the main protein"))
+              print( paste(" --- new predicted ORF is",overlapping.prot,"with the main protein"))
               print(paste0(" - DEBUG: i=",i," , nm=",nm))
             }
             cat("\n\n")
