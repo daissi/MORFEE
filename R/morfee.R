@@ -76,11 +76,20 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         next
       }
 
-      my_enst <- morfee_data[["GENCODE_METAD"]][my_nm_id,1]
+      my_enst <- morfee_data[["GENCODE_METAD"]][my_nm_id,1][1]
       my_transcript_id <- grep(paste0(my_enst,"_"), morfee_data[["GENCODE_ANNOT"]]$transcript_id)
       gencode_annot_sub <- morfee_data[["GENCODE_ANNOT"]][my_transcript_id,]
       gencode_annot_cds <- gencode_annot_sub[gencode_annot_sub$type=="CDS",]
       gencode_annot_exon <- gencode_annot_sub[gencode_annot_sub$type=="exon",]
+      gencode_annot_transcript_type <- unique(gencode_annot_exon$transcript_type)
+
+      if(length(gencode_annot_transcript_type)<1){
+        message("Transcript type is not protein coding!")
+        next
+      }else if(!(gencode_annot_transcript_type %in% "protein_coding")){
+        message("Transcript type is not protein coding!")
+        next
+      }
 
       my_init_codon_r <- gencode_annot_sub[gencode_annot_sub$type=="start_codon",]
 
@@ -367,15 +376,20 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
             # uatg_i = uatg_in_frame[1]
 
               # Find next stop in frame with uatg_i
-              uatg_in_frame <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0 ]
-              first_new_stop <- min( uatg_in_frame[uatg_in_frame > uatg_i] )
+              uatg_i_in_frame <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0 ]
+              first_new_stop <- min( uatg_i_in_frame[uatg_i_in_frame > uatg_i] )
 
               # Compute distance and length
               stop.generated.prot.length <- (first_new_stop-uatg_i)/3
               ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
 
-              uatg_used <- (my_init_codon_5_cdna - uatg_i)
+              uatg_used <- -(my_init_codon_5_cdna - uatg_i)
               stop_used <- (my_init_codon_5_cdna - 1 - first_new_stop)
+
+              if(uatg_used>=0){
+                message("Position of uATG is positive! Probably an error in the used reference database")
+                next
+              }
 
               if(stop_used<0){
 
@@ -389,11 +403,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
               print(       " --")
-              print( paste(" --- using uATG at",-uatg_used,"to the main ATG!"))
+              print( paste(" --- using uATG at",uatg_used,"to the main ATG!"))
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
               print( paste(" --- new predicted ORF has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa) for the main protein"))
               print( paste(" --- new predicted ORF is",overlapping.prot,"with the main protein"))
-              print(paste0(" - DEBUG: i=",i," , nm=",nm))
+              print(paste0(" - DEBUG: i=",i," ; nm=",nm))
             }
             cat("\n\n")
 
