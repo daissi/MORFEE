@@ -338,7 +338,8 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           # Update myvcf_annot_info
           new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE"],
-                                 paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
+#                                paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
+                                 paste0("uATG{",my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)}")) )
                              , collapse="|")
 
           myvcf_annot_info[i,"MORFEE"] <- new_field
@@ -395,10 +396,12 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
                 overlapping.perc <- (-stop_used/(ref.prot.length*3))*100
 
-                overlapping.prot <- paste("overlapping",round(overlapping.perc, digits = 2),"%")
+                overlapping.prot <- paste0("overlapping_",round(overlapping.perc, digits = 2),"%")
               }else{
-                overlapping.prot <- paste("not overlapping")
+                overlapping.prot <- "not_overlapping"
               }
+
+              # FIXME: add case: overlapping.prot <- "elongated"
 
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
@@ -408,6 +411,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print( paste(" --- new predicted ORF has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa) for the main protein"))
               print( paste(" --- new predicted ORF is",overlapping.prot,"with the main protein"))
               print(paste0(" - DEBUG: i=",i," ; nm=",nm))
+
+              # Update myvcf_annot_info
+              new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE"],
+                                     paste0("uSTOP{",my_nm,":",my.strand,",",-del.stop.distance,",",overlapping.prot,",",stop.generated.prot.length,"[/",ref.prot.length,"]","(aa)}")) )
+                                 , collapse="|")
+
+              myvcf_annot_info[i,"MORFEE"] <- new_field
             }
             cat("\n\n")
 
