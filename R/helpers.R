@@ -183,12 +183,12 @@ vcf_2_xlsx <- function(myvcf, file){
 
   df.myvcf <- combine.vcf.slot(myvcf)
 
-  df.myvcf$orfSNVs <- unlist(get.orfSNVs(df.myvcf$MORFEE))
-  df.myvcf$NewAALength <- unlist(get.NewAALength(df.myvcf$MORFEE))
+  df.myvcf$orfSNVs <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG))
+  df.myvcf$NewAALength <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
   df.myvcf$Ratio_length_pred_obs <- get.Ratio_length_pred_obs(df.myvcf$NewAALength)
 
   col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150",
-                "GeneDetail.refGene","orfSNVs","Ratio_length_pred_obs","NewAALength","MORFEE",
+                "GeneDetail.refGene","orfSNVs","Ratio_length_pred_obs","NewAALength","MORFEE_uATG", "MORFEE_uSTOP",
                 "pLI.refGene","exp_lof.refGene","oe_lof.refGene","oe_lof_lower.refGene","oe_lof_upper.refGene",
                 "gwasCatalog","CLNDN","CLNDISDB","CLNSIG","AF","AF_popmax",
                 "SIFT_pred","Polyphen2_HDIV_pred","Polyphen2_HVAR_pred","LRT_pred","MutationTaster_pred",

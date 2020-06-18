@@ -14,11 +14,13 @@
 morfee.annotation <- function(myvcf_annot, morfee_data){
 
   myvcf_annot_info <- info(myvcf_annot)
-  myvcf_annot_info$MORFEE <- NA
+  myvcf_annot_info$MORFEE_uATG <- NA
+  myvcf_annot_info$MORFEE_uSTOP <- NA
   myvcf_annot_header <- rbind(info(header(myvcf_annot)),
-                              data.frame(Number = ".", Type = "String", Description = "New ATG annotation provided by MORFEE", stringsAsFactors = FALSE) )
+                              data.frame(Number = ".", Type = "String", Description = "New ATG annotation provided by MORFEE", stringsAsFactors = FALSE),
+                              data.frame(Number = ".", Type = "String", Description = "Deletion STOP annotation provided by MORFEE", stringsAsFactors = FALSE) )
 
-  rownames(myvcf_annot_header) <- c(rownames(info(header(myvcf_annot))),"MORFEE")
+  rownames(myvcf_annot_header) <- c(rownames(info(header(myvcf_annot))),"MORFEE_uATG", "MORFEE_uSTOP")
   info(header(myvcf_annot)) <- myvcf_annot_header
   info(myvcf_annot) <- myvcf_annot_info
 
@@ -337,12 +339,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
 
           # Update myvcf_annot_info
-          new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE"],
-#                                paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
-                                 paste0("uATG{",my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)}")) )
+          new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE_uATG"],
+                                 paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
                              , collapse="|")
 
-          myvcf_annot_info[i,"MORFEE"] <- new_field
+          myvcf_annot_info[i,"MORFEE_uATG"] <- new_field
 
         }# END new ATG
 
@@ -413,11 +414,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print(paste0(" - DEBUG: i=",i," ; nm=",nm))
 
               # Update myvcf_annot_info
-              new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE"],
-                                     paste0("uSTOP{",my_nm,":",my.strand,",",-del.stop.distance,",",overlapping.prot,",",stop.generated.prot.length,"[/",ref.prot.length,"]","(aa)}")) )
+              new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE_uSTOP"],
+                                     paste0(my_nm,":",my.strand,",",-del.stop.distance,",",overlapping.prot,",",stop.generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
                                  , collapse="|")
 
-              myvcf_annot_info[i,"MORFEE"] <- new_field
+              myvcf_annot_info[i,"MORFEE_uSTOP"] <- new_field
             }
             cat("\n\n")
 
