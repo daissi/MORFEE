@@ -395,14 +395,22 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               if(stop_used<0){
 
-                overlapping.perc <- (-stop_used/(ref.prot.length*3))*100
+                # 1. uATG in frame to ref ATG
+                uatg_inframe_refatg <- ((uatg_i-my_init_codon_5_cdna)%%3)==0
+                # 2. STOP position used > ATG
+                stop_used_downstream <- (first_new_stop > my_init_codon_5_cdna)
 
-                overlapping.prot <- paste0("overlapping_",round(overlapping.perc, digits = 2),"%")
+                if(uatg_inframe_refatg & stop_used_downstream){
+                  overlapping.prot <- "elongated_CDS"
+                }else{
+                  overlapping.perc <- (-stop_used/(ref.prot.length*3))*100
+                  overlapping.perc.round <- round(overlapping.perc, digits = 2)
+                  overlapping.prot <- paste0("overlapping_",overlapping.perc.round,"%")
+                }
+
               }else{
                 overlapping.prot <- "not_overlapping"
               }
-
-              # FIXME: add case: overlapping.prot <- "elongated"
 
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
