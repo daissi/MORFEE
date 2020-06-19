@@ -183,12 +183,12 @@ vcf_2_xlsx <- function(myvcf, file){
 
   df.myvcf <- combine.vcf.slot(myvcf)
 
-  df.myvcf$orfSNVs <- unlist(get.orfSNVs(df.myvcf$MORFEE))
-  df.myvcf$NewAALength <- unlist(get.NewAALength(df.myvcf$MORFEE))
+  df.myvcf$orfSNVs <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG))
+  df.myvcf$NewAALength <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
   df.myvcf$Ratio_length_pred_obs <- get.Ratio_length_pred_obs(df.myvcf$NewAALength)
 
   col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150",
-                "GeneDetail.refGene","orfSNVs","Ratio_length_pred_obs","NewAALength","MORFEE",
+                "GeneDetail.refGene","orfSNVs","Ratio_length_pred_obs","NewAALength","MORFEE_uATG", "MORFEE_uSTOP",
                 "pLI.refGene","exp_lof.refGene","oe_lof.refGene","oe_lof_lower.refGene","oe_lof_upper.refGene",
                 "gwasCatalog","CLNDN","CLNDISDB","CLNSIG","AF","AF_popmax",
                 "SIFT_pred","Polyphen2_HDIV_pred","Polyphen2_HVAR_pred","LRT_pred","MutationTaster_pred",
@@ -221,6 +221,8 @@ get.Ratio_length_pred_obs <- function(x){
 
 get.Ratio_length_pred_obs.meth <- function(x){
 
+  if(is.na(x)){return(NA)}
+
   x <- str_split_fixed(x,";", n=Inf)
   y <- sapply(x, function(x) eval(parse(text=x)))
   y <- as.numeric(y)
@@ -232,8 +234,8 @@ get.Ratio_length_pred_obs.meth <- function(x){
 
 get.NewAALength <- function(x){
 
-  morfee_temp <-  lapply(x, function(x) paste0(x, sep="", collapse="|"))
-  morfee_temp <-  lapply(morfee_temp, function(x) str_split_fixed(x,"\\|", n=Inf)[1,])
+  morfee_temp <- lapply(x, function(x) str_split_fixed(x,"\\|", n=Inf)[1,])
+  morfee_temp <- lapply(morfee_temp, function(x) str_split_fixed(x,",", n=Inf))
 
   orf <- lapply(morfee_temp, get.NewAALength.meth)
 
@@ -242,18 +244,21 @@ get.NewAALength <- function(x){
 
 get.NewAALength.meth <- function(y){
 
-  length_id <- seq(from = 4, to = length(y), by = 4)
-  length_temp <- paste(y[length_id], collapse="; ", sep="")
-  length_temp <- gsub("\\(aa\\)","",length_temp)
-  length_temp <- gsub("\\[","",length_temp)
-  length_temp <- gsub("\\]","",length_temp)
-  return(length_temp)
+  if(ncol(y)==4){
+    length_temp <- paste(y[,4], collapse="; ", sep="")
+    length_temp <- gsub("\\(aa\\)","",length_temp)
+    length_temp <- gsub("\\[","",length_temp)
+    length_temp <- gsub("\\]","",length_temp)
+    return(length_temp)
+  }else{
+    return(NA)
+  }
 }
 
 get.orfSNVs <- function(x){
 
-  morfee_temp <-  lapply(x, function(x) paste0(x, sep="", collapse="|"))
-  morfee_temp <-  lapply(morfee_temp, function(x) str_split_fixed(x,"\\|", n=Inf)[1,])
+  morfee_temp <- lapply(x, function(x) str_split_fixed(x,"\\|", n=Inf)[1,])
+  morfee_temp <- lapply(morfee_temp, function(x) str_split_fixed(x,",", n=Inf))
 
   orf <- lapply(morfee_temp, get.orfSNVs.meth)
 
@@ -262,8 +267,11 @@ get.orfSNVs <- function(x){
 
 get.orfSNVs.meth <- function(y){
 
-  orf_id <- seq(from = 3, to = length(y), by = 4)
-  paste(y[orf_id], collapse="; ", sep="")
+  if(ncol(y)==4){
+    return(paste(y[,3], collapse="; ", sep=""))
+  }else{
+    return(NA)
+  }
 }
 
 
