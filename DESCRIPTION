@@ -20,7 +20,7 @@ Authors@R: c(
 Description: Annotation of mutation which generate new ATG
  From a VCF file annotated by ANNOVAR, MORFEE annotates mutation
  which generate new potential start codon (i.e. ATG).
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 License: GPL (>=3)
 URL: https://daissi.github.io/MORFEE/
 BugReports: https://github.com/daissi/MORFEE/issues
@@ -29,7 +29,7 @@ LazyData: true
 Imports:
     stringr,
     data.table,
-    VariantAnnotation,
+    VariantAnnotation (>= 1.32.0),
     rtracklayer,
     Biostrings,
     writexl,
