@@ -52,32 +52,27 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
     # Loop for each transcript (row)
     for(nm in 1:nrow(my_nm_list)){
+
+      if(!(as.character(my_nm_list[nm,5]) %in% c("A","T","C","G"))){
+        message(paste("Reference allele not A, T, C or G!",my_nm_list[nm,5],": skip"))
+#       message(" it could be an indel, but not yet supported!")
+        next
+      }
+
+      if(!(as.character(my_nm_list[nm,6]) %in% c("A","T","C","G"))){
+        message(paste("Alternative allele not A, T, C or G!",my_nm_list[nm,6],": skip"))
+#       message(" it could be an indel, but not yet supported!")
+        next
+      }
+
       my_nm <- my_nm_list[nm,1]
       my_snp <- my_nm_list[nm,2]
       my_upordown <- my_nm_list[nm,3]
       my_snp_pos_rel <- as.numeric(my_nm_list[nm,4]) # Position from ATG, ex: 94
       my_nm_id <- grep(paste0(my_nm,"\\."), morfee_data[["GENCODE_METAD"]]$V2)
 
-      if(nchar(my_nm_list[nm,5])!=1){
-        message(" indel detected! Not YET supported!")
-        next
-      }
-      if(my_nm_list[nm,5]=="-"){
-        message(" indel detected! Not YET supported!")
-        next
-      }
-      if(nchar(my_nm_list[nm,6])!=1){
-        message(" indel detected! Not YET supported!")
-        next
-      }
-      if(my_nm_list[nm,6]=="-"){
-        message(" indel detected! Not YET supported!")
-        next
-      }
-
       if(length(my_nm_id)==0){
-        message("Annotation for",my_nm_id," was not found in GENCODE !?!")
-        message(" skipping this variant for now... NOT YET IMPLEMENTED")
+        message("Annotation for",my_nm_id," was not found in GENCODE ! skip")
         next
       }
 
@@ -371,10 +366,10 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print(       " -  uSTOP deletion in ORF detected!")
               print( paste("For",my_gene,"-",my_nm,"and",my_snp))
               print(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
-              print( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
+              print( paste(" --- "   , as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
                            " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
               print( paste(" --- Gene direction:",my.strand))
-
+#             print(paste0(" - DEBUG: i=",i," ; nm=",nm))
 
             # several uATG could be present, so the protein length will be different
             for(uatg_i in uatg_in_frame){
@@ -422,7 +417,6 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
               print( paste(" --- new predicted ORF has a length of",stop.generated.prot.length,"(aa) vs",ref.prot.length,"(aa) for the main protein"))
               print( paste(" --- new predicted ORF is",overlapping.prot,"with the main protein"))
-              print(paste0(" - DEBUG: i=",i," ; nm=",nm))
 
               # Update myvcf_annot_info
               new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE_uSTOP"],
@@ -439,7 +433,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               message(       " -  uSTOP deletion detected BUT without an upstream ATG (not in an ORF region)!")
               message( paste("For",my_gene,"-",my_nm,"and",my_snp))
               message(paste0(" - Deletion of a uSTOP codon detected at: ",-del.stop.distance," from the main ATG!"))
-              message( paste(" --- "   ,as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
+              message( paste(" --- ",    as.character(        my_cdna[start(del.stop)[1]:end(del.stop)[1]] ),
                              " becomes ",as.character(my_cdna_updated[start(del.stop)[1]:end(del.stop)[1]] ) ))
               message("\n\n")
 
