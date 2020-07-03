@@ -183,8 +183,20 @@ vcf_2_xlsx <- function(myvcf, file){
 
   df.myvcf <- combine.vcf.slot(myvcf)
 
-  df.myvcf$orfSNVs <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG))
-  df.myvcf$NewAALength <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
+  orfSNVs_uATG <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG))
+  orfSNVs_uSTOP <- unlist(get.orfSNVs(df.myvcf$MORFEE_uSTOP))
+  orfSNVs <- paste(orfSNVs_uATG, orfSNVs_uSTOP, sep=";")
+  orfSNVs <- gsub(";NA","",orfSNVs)
+  orfSNVs <- gsub("NA;","",orfSNVs)
+  df.myvcf$orfSNVs <- orfSNVs
+
+  NewAALength_uATG <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
+  NewAALength_uSTOP <- unlist(get.NewAALength(df.myvcf$MORFEE_uSTOP))
+  NewAALength <- paste(NewAALength_uATG, NewAALength_uSTOP, sep=";")
+  NewAALength <- gsub(";NA","",NewAALength)
+  NewAALength <- gsub("NA;","",NewAALength)
+  df.myvcf$NewAALength <- NewAALength
+
   df.myvcf$Ratio_length_pred_obs <- get.Ratio_length_pred_obs(df.myvcf$NewAALength)
 
   col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150",
