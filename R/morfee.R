@@ -329,16 +329,27 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           generated.prot.length <- (my_first_stop-1)/3
           ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
 
+          # Determine whether the ORF is overlapping, not overlapping or elongated CD
+          if(my_first_stop < my_init_codon_5_cdna){
+            overlapping.prot <- "not_overlapping"
+          }else if( in.frame=="in_frame" & (my_first_stop > my_init_codon_5_cdna) ){
+            overlapping.prot <- "elongated_CDS"
+          }else{
+            overlapping.perc <- ((my_first_stop-my_init_codon_5_cdna)/(ref.prot.length*3))*100
+            overlapping.perc.round <- round(overlapping.perc, digits = 2)
+            overlapping.prot <- paste0("overlapping_",overlapping.perc.round,"%")
+          }
+
           message( paste("For",my_gene,"-",my_nm,"and",my_snp))
           message(paste0(" - New uATG detected at: ",new.atg.distance," from the main ATG!"))
           message( paste(" - new uATG is",in.frame,"to the main ATG!"))
           message( paste(" - new generated protein has a length of",generated.prot.length,"(aa) vs",ref.prot.length,"(aa)"))
+#         message(paste0(" - DEBUG: i=",i," ; nm=",nm))
           message("\n\n")
-
 
           # Update myvcf_annot_info
           new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE_uATG"],
-                                 paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
+                                 paste0(my_nm,":",my.strand,",",new.atg.distance,",",in.frame,",",overlapping.prot,",",generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
                              , collapse="|")
 
           myvcf_annot_info[i,"MORFEE_uATG"] <- new_field
@@ -412,6 +423,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
+              test.frame <- ((my_init_codon_5_cdna-stop_used)%%3)
+              if(test.frame==0){
+                in.frame <- "in_frame"
+              }else{
+                in.frame <- paste0("out_of_frame_(",test.frame,")")
+              }
+
               print(       " --")
               print( paste(" --- using uATG at",uatg_used,"to the main ATG!"))
               print(paste0(" --- using STOP (",stop.codon,") at ",-stop_used," to the main ATG!"))
@@ -420,7 +438,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               # Update myvcf_annot_info
               new_field <- paste( na.omit(c( myvcf_annot_info[i,"MORFEE_uSTOP"],
-                                     paste0(my_nm,":",my.strand,",",-del.stop.distance,",",overlapping.prot,",",stop.generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
+                                     paste0(my_nm,":",my.strand,",",-del.stop.distance,",",in.frame,",",overlapping.prot,",",stop.generated.prot.length,"[/",ref.prot.length,"]","(aa)")) )
                                  , collapse="|")
 
               myvcf_annot_info[i,"MORFEE_uSTOP"] <- new_field

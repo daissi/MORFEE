@@ -183,12 +183,23 @@ vcf_2_xlsx <- function(myvcf, file){
 
   df.myvcf <- combine.vcf.slot(myvcf)
 
-  orfSNVs_uATG <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG))
-  orfSNVs_uSTOP <- unlist(get.orfSNVs(df.myvcf$MORFEE_uSTOP))
-  orfSNVs <- paste(orfSNVs_uATG, orfSNVs_uSTOP, sep=";")
-  orfSNVs <- gsub(";NA","",orfSNVs)
-  orfSNVs <- gsub("NA;","",orfSNVs)
-  df.myvcf$orfSNVs <- orfSNVs
+  df.myvcf$orfSNVs_type <- NA
+  df.myvcf$orfSNVs_type[!is.na(df.myvcf$MORFEE_uATG)] <- "uATG"
+  df.myvcf$orfSNVs_type[!is.na(df.myvcf$MORFEE_uSTOP)] <- "uSTOP"
+
+  orfSNVs_frame_uATG  <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG, type="frame"))
+  orfSNVs_frame_uSTOP <- unlist(get.orfSNVs(df.myvcf$MORFEE_uSTOP, type="frame"))
+  orfSNVs_frame <- paste(orfSNVs_frame_uATG, orfSNVs_frame_uSTOP, sep=";")
+  orfSNVs_frame <- gsub(";NA","",orfSNVs_frame)
+  orfSNVs_frame <- gsub("NA;","",orfSNVs_frame)
+  df.myvcf$orfSNVs_frame <- orfSNVs_frame
+
+  orfSNVs_position_uATG  <- unlist(get.orfSNVs(df.myvcf$MORFEE_uATG, type="position"))
+  orfSNVs_position_uSTOP <- unlist(get.orfSNVs(df.myvcf$MORFEE_uSTOP, type="position"))
+  orfSNVs_position <- paste(orfSNVs_position_uATG, orfSNVs_position_uSTOP, sep=";")
+  orfSNVs_position <- gsub(";NA","",orfSNVs_position)
+  orfSNVs_position <- gsub("NA;","",orfSNVs_position)
+  df.myvcf$orfSNVs_position <- orfSNVs_position
 
   NewAALength_uATG <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
   NewAALength_uSTOP <- unlist(get.NewAALength(df.myvcf$MORFEE_uSTOP))
@@ -199,8 +210,9 @@ vcf_2_xlsx <- function(myvcf, file){
 
   df.myvcf$Ratio_length_pred_obs <- get.Ratio_length_pred_obs(df.myvcf$NewAALength)
 
-  col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150",
-                "GeneDetail.refGene","orfSNVs","Ratio_length_pred_obs","NewAALength","MORFEE_uATG", "MORFEE_uSTOP",
+  col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150","GeneDetail.refGene",
+                "orfSNVs_type","orfSNVs_frame","orfSNVs_position",
+                "Ratio_length_pred_obs","NewAALength","MORFEE_uATG", "MORFEE_uSTOP",
                 "pLI.refGene","exp_lof.refGene","oe_lof.refGene","oe_lof_lower.refGene","oe_lof_upper.refGene",
                 "gwasCatalog","CLNDN","CLNDISDB","CLNSIG","AF","AF_popmax",
                 "SIFT_pred","Polyphen2_HDIV_pred","Polyphen2_HVAR_pred","LRT_pred","MutationTaster_pred",
@@ -256,8 +268,8 @@ get.NewAALength <- function(x){
 
 get.NewAALength.meth <- function(y){
 
-  if(ncol(y)==4){
-    length_temp <- paste(y[,4], collapse="; ", sep="")
+  if(ncol(y)==5){
+    length_temp <- paste(y[,5], collapse="; ", sep="")
     length_temp <- gsub("\\(aa\\)","",length_temp)
     length_temp <- gsub("\\[","",length_temp)
     length_temp <- gsub("\\]","",length_temp)
@@ -267,20 +279,28 @@ get.NewAALength.meth <- function(y){
   }
 }
 
-get.orfSNVs <- function(x){
+get.orfSNVs <- function(x, type=c("frame","position")){
+
+  if(!(type %in% c("frame","position"))){
+    stop("'type' is not 'frame' nor 'position'")
+  }
 
   morfee_temp <- lapply(x, function(x) str_split_fixed(x,"\\|", n=Inf)[1,])
   morfee_temp <- lapply(morfee_temp, function(x) str_split_fixed(x,",", n=Inf))
 
-  orf <- lapply(morfee_temp, get.orfSNVs.meth)
+  orf <- lapply(morfee_temp, get.orfSNVs.meth, type)
 
   return(orf)
 }
 
-get.orfSNVs.meth <- function(y){
+get.orfSNVs.meth <- function(y, type){
 
-  if(ncol(y)==4){
-    return(paste(y[,3], collapse="; ", sep=""))
+  if(ncol(y)==5){
+    if(type=="frame"){
+      return(paste(y[,3], collapse="; ", sep=""))
+    }else if(type=="position"){
+      return(paste(y[,4], collapse="; ", sep=""))
+    }
   }else{
     return(NA)
   }
