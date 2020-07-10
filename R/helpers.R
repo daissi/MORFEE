@@ -199,7 +199,7 @@ vcf_2_xlsx <- function(myvcf, file){
   orfSNVs_position <- paste(orfSNVs_position_uATG, orfSNVs_position_uSTOP, sep=";")
   orfSNVs_position <- gsub(";NA","",orfSNVs_position)
   orfSNVs_position <- gsub("NA;","",orfSNVs_position)
-  df.myvcf$orfSNVs_position <- orfSNVs_position
+  df.myvcf$type_of_generated_ORF <- orfSNVs_position
 
   NewAALength_uATG <- unlist(get.NewAALength(df.myvcf$MORFEE_uATG))
   NewAALength_uSTOP <- unlist(get.NewAALength(df.myvcf$MORFEE_uSTOP))
@@ -211,7 +211,7 @@ vcf_2_xlsx <- function(myvcf, file){
   df.myvcf$Ratio_length_pred_obs <- get.Ratio_length_pred_obs(df.myvcf$NewAALength)
 
   col2keep <- c("seqnames","start","REF","ALT","Gene.refGene","avsnp150","GeneDetail.refGene",
-                "orfSNVs_type","orfSNVs_frame","orfSNVs_position",
+                "orfSNVs_type","orfSNVs_frame","type_of_generated_ORF",
                 "Ratio_length_pred_obs","NewAALength","MORFEE_uATG", "MORFEE_uSTOP",
                 "pLI.refGene","exp_lof.refGene","oe_lof.refGene","oe_lof_lower.refGene","oe_lof_upper.refGene",
                 "gwasCatalog","CLNDN","CLNDISDB","CLNSIG","AF","AF_popmax",
