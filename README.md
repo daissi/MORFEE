@@ -101,10 +101,13 @@ Please see below the description of the different columns of the xlsx file:
        Please note, this nomenclature does not respect the [HGVS Recommendations](https://varnomen.hgvs.org/) ([doi:10.1002/humu.22981](https://doi.org/10.1002/humu.22981)).
        The position of the variant used with a prefix *c.* should be the position of the variant regarding the ATG position based one the coding sequence.
        In other words, the position on a sequence WITHOUT introns. ANNOVAR reports the position on the sequence WITH introns.
-- **orfSNVs**: *in_frame* or *out_of_frame* to determine whether there is a frame shift between the new ATG and the reference one.
+- **orfSNVs_type**: *uATG* or *uSTOP* to determine whether there is a creation of an upstream ATG or a deletion of an upstream STOP.
+- **orfSNVs_frame**: *in_frame* or *out_of_frame* to determine whether there is a frame shift between the new ATG (or deleted STOP) and the reference ATG.
+- **orfSNVs_position**: *overlapping*, *not_overlapping* or *elongated_CDS* to determine the position of the predicted ORF to the reference protein.
 - **Ratio_length_pred_obs**: ratio between the predicted vs the observed length of the protein (<1 for a shorter protein and >1 for a longer protein). In case of several transcripts, only one value is given. That corresponding to the predicted length the closest to the observed length, i.e the ratio closest to 1.
 - **NewAALength**: predicted length of the new protein in amino acids.
-- **MORFEE**: MORFEE VCF-style annotation
+- **MORFEE_ATG**: MORFEE VCF-style annotation for variants creating new uATG.
+- **MORFEE_STOP**: MORFEE VCF-style annotation for variants deleting uSTOP.
 
 *All fields below come from ANNOVAR annotation*:
 
