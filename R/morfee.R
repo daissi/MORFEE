@@ -77,7 +77,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
       }
 
       my_enst <- morfee_data[["GENCODE_METAD"]][my_nm_id,1][1]
-      my_transcript_id <- grep(paste0(my_enst,"_"), morfee_data[["GENCODE_ANNOT"]]$transcript_id)
+      if(morfee_data[["GRCh"]]==37){
+        my_transcript_id <- grep(paste0(my_enst,"_"), morfee_data[["GENCODE_ANNOT"]]$transcript_id)
+      }else if(morfee_data[["GRCh"]]==38){
+        my_transcript_id <- grep(my_enst, morfee_data[["GENCODE_ANNOT"]]$transcript_id)
+      }else{
+        stop("Reference Genome unknown")
+      }
       gencode_annot_sub <- morfee_data[["GENCODE_ANNOT"]][my_transcript_id,]
       gencode_annot_cds <- gencode_annot_sub[gencode_annot_sub$type=="CDS",]
       gencode_annot_exon <- gencode_annot_sub[gencode_annot_sub$type=="exon",]
