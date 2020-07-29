@@ -162,13 +162,19 @@ vcf_2_xlsx(my_vcf_morfee_NEW, file="VCF_example.hg19_multianno.morfee_anno_NEW.x
 <li>
 <strong>GeneDetail.refGene</strong>: Sequence Variant Nomenclature (ANNOVAR output). Please note, this nomenclature does not respect the <a href="https://varnomen.hgvs.org/">HGVS Recommendations</a> (<a href="https://doi.org/10.1002/humu.22981">doi:10.1002/humu.22981</a>). The position of the variant used with a prefix <em>c.</em> should be the position of the variant regarding the ATG position based one the coding sequence. In other words, the position on a sequence WITHOUT introns. ANNOVAR reports the position on the sequence WITH introns.</li>
 <li>
-<strong>orfSNVs</strong>: <em>in_frame</em> or <em>out_of_frame</em> to determine whether there is a frame shift between the new ATG and the reference one.</li>
+<strong>orfSNVs_type</strong>: <em>uATG</em> or <em>uSTOP</em> to determine whether there is a creation of an upstream ATG or a deletion of an upstream STOP.</li>
+<li>
+<strong>orfSNVs_frame</strong>: <em>in_frame</em> or <em>out_of_frame</em> to determine whether there is a frame shift between the new ATG (or deleted STOP) and the reference ATG.</li>
+<li>
+<strong>orfSNVs_position</strong>: <em>overlapping</em>, <em>not_overlapping</em> or <em>elongated_CDS</em> to determine the position of the predicted ORF to the reference protein.</li>
 <li>
 <strong>Ratio_length_pred_obs</strong>: ratio between the predicted vs the observed length of the protein (&lt;1 for a shorter protein and &gt;1 for a longer protein). In case of several transcripts, only one value is given. That corresponding to the predicted length the closest to the observed length, i.e the ratio closest to 1.</li>
 <li>
 <strong>NewAALength</strong>: predicted length of the new protein in amino acids.</li>
 <li>
-<strong>MORFEE</strong>: MORFEE VCF-style annotation</li>
+<strong>MORFEE_ATG</strong>: MORFEE VCF-style annotation for variants creating new uATG.</li>
+<li>
+<strong>MORFEE_STOP</strong>: MORFEE VCF-style annotation for variants deleting uSTOP.</li>
 </ul>
 <p><em>All fields below come from ANNOVAR annotation</em>:</p>
 <ul>
