@@ -29,14 +29,14 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
     my_func <- as.character(myvcf_annot_info[i,"Func.refGene"])
     if(my_func!="UTR5"){
-      message("Skip a variant which is not in UTR5 region")
+      message(paste0("Skip variant ",i,": not in UTR5 region"))
       next
     }
 
     my_refgene <- as.character(myvcf_annot_info[i,"GeneDetail.refGene"])
 
     if(my_refgene=="."){
-      message("Skip a variant which has no GeneDetail.refGene annotation")
+      message(paste0("Skip variant ",i,": has no GeneDetail.refGene annotation"))
       next
     }
 
@@ -54,13 +54,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
     for(nm in 1:nrow(my_nm_list)){
 
       if(!(as.character(my_nm_list[nm,5]) %in% c("A","T","C","G"))){
-        message(paste("Reference allele not A, T, C or G!",my_nm_list[nm,5],": skip"))
+        message(paste0("Skip variant ",i,": reference allele not A, T, C or G! ",my_nm_list[nm,5]))
 #       message(" it could be an indel, but not yet supported!")
         next
       }
 
       if(!(as.character(my_nm_list[nm,6]) %in% c("A","T","C","G"))){
-        message(paste("Alternative allele not A, T, C or G!",my_nm_list[nm,6],": skip"))
+        message(paste0("Skip variant ",i,": alternative allele not A, T, C or G! ",my_nm_list[nm,6]))
 #       message(" it could be an indel, but not yet supported!")
         next
       }
@@ -72,7 +72,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
       my_nm_id <- grep(paste0(my_nm,"\\."), morfee_data[["GENCODE_METAD"]]$V2)
 
       if(length(my_nm_id)==0){
-        message("Annotation for",my_nm_id," was not found in GENCODE ! skip")
+        message(paste0("Skip variant ",i,": annotation for ",my_nm_id," was not found in GENCODE"))
         next
       }
 
@@ -90,17 +90,17 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
       gencode_annot_transcript_type <- unique(gencode_annot_exon$transcript_type)
 
       if(length(gencode_annot_transcript_type)<1){
-        message("Transcript type is not protein coding!")
+        message(paste0("Skip variant ",i,": transcript type is not protein coding"))
         next
       }else if(!(gencode_annot_transcript_type %in% "protein_coding")){
-        message("Transcript type is not protein coding!")
+        message(paste0("Skip variant ",i,": transcript type is not protein coding"))
         next
       }
 
       my_init_codon_r <- gencode_annot_sub[gencode_annot_sub$type=="start_codon",]
 
       if(nrow(my_init_codon_r)==0){
-        message("Variant without start_codon! Skip")
+        message(paste0("Skip variant ",i,": associated transcript without start_codon"))
         next
       }
 
@@ -110,7 +110,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
       my_stop_codon_r <- gencode_annot_sub[gencode_annot_sub$type=="stop_codon",]
 
       if(nrow(my_stop_codon_r)==0){
-        message("Variant without stop_codon! Skip")
+        message(paste0("Skip variant ",i,": associated transcript without stop_codon"))
         next
       }
 
@@ -140,7 +140,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
         my_cdna_length_A <- my_cdna_length_B <- 0
 
         if(length(my_snp_exon)==0){
-          message("Variant not in an exonic part. Skip")
+          message(paste0("Skip variant ",i,": not in an exonic part"))
           next
         }
 
@@ -187,13 +187,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
         my_ref_allele <- as.character(subseq(my_cdna, start=my_snp_pos_cdna, end=my_snp_pos_cdna))
         if(my_ref_allele!=my_nm_list[nm,5]){
-          message("Mismatch between alleles")
+          message(paste0("Skip variant ",i,": mismatch between alleles"))
           next
         }
 
         my_ref_ATG <- as.character(subseq(my_cdna, start=my_init_codon_5_cdna, end=(my_init_codon_5_cdna+2)))
         if(my_ref_ATG!="ATG"){
-          message("Reference ATG no detected!")
+          message(paste0("Skip variant ",i,": reference ATG no detected"))
           next
         }
 
@@ -211,7 +211,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           my_cdna_length_A <- my_cdna_length_B <- 0
 
           if(length(my_snp_exon)==0){
-            message("Variant not in an exonic part. Skip")
+            message(paste0("Skip variant ",i,": not in an exonic part"))
             next
           }
 
@@ -259,13 +259,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           my_ref_allele <- as.character(subseq(my_cdna, start=my_snp_pos_cdna, end=my_snp_pos_cdna))
           if(my_ref_allele!=my_nm_list[nm,5]){
-            message("Mismatch between alleles")
+            message(paste0("Skip variant ",i,": mismatch between alleles"))
             next
           }
 
           my_ref_ATG <- as.character(subseq(my_cdna, start=my_init_codon_5_cdna, end=(my_init_codon_5_cdna+2)))
           if(my_ref_ATG!="ATG"){
-            message("Reference ATG no detected!")
+            message(paste0("Skip variant ",i,": reference ATG no detected"))
             next
           }
 
@@ -307,12 +307,12 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
           new.atg.distance <- my_init_codon_5_cdna - (start(new.atg)[1])
 
-          test.frame <- (new.atg.distance%%3)
+          test.frame.uatg <- (new.atg.distance%%3)
 
-          if(test.frame==0){
+          if(test.frame.uatg==0){
             in.frame <- "in_frame"
           }else{
-            in.frame <- paste0("out_of_frame_(",test.frame,")")
+            in.frame <- paste0("out_of_frame_(",test.frame.uatg,")")
           }
 
           # Found all STOP
@@ -334,6 +334,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
           # Lenght of proteins
           generated.prot.length <- (my_first_stop-1)/3
           ref.prot.length <- (sum(gencode_annot_cds[,"end"]+1 - gencode_annot_cds[,"start"] ) -3)/3
+
+          if(is.na(my_first_stop)){
+            message(paste0("Skip variant ",i,": new ATG detected but no STOP in phase"))
+            next
+          }
 
           # Determine whether the ORF is overlapping, not overlapping or elongated CD
           if(my_first_stop < my_init_codon_5_cdna){
@@ -404,7 +409,7 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
               stop_used <- (my_init_codon_5_cdna - 1 - first_new_stop)
 
               if(uatg_used>=0){
-                message("Position of uATG is positive! Probably an error in the used reference database")
+                message(paste0("Skip variant ",i,": position of uATG is positive! Probably an error in the used reference database"))
                 next
               }
 
@@ -429,11 +434,11 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               stop.codon <- as.character(stats_stop_mut[start(stats_stop_mut)==first_new_stop])
 
-              test.frame <- ((my_init_codon_5_cdna-stop_used)%%3)
-              if(test.frame==0){
+              test.frame.ustop <- ((my_init_codon_5_cdna-stop_used)%%3)
+              if(test.frame.ustop==0){
                 in.frame <- "in_frame"
               }else{
-                in.frame <- paste0("out_of_frame_(",test.frame,")")
+                in.frame <- paste0("out_of_frame_(",test.frame.ustop,")")
               }
 
               print(       " --")
