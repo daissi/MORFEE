@@ -399,7 +399,13 @@ morfee.annotation <- function(myvcf_annot, morfee_data){
 
               # Find next stop in frame with uatg_i
               uatg_i_in_frame <- start(stats_stop_mut)[ ((uatg_i - start(stats_stop_mut)) %%3)==0 ]
-              first_new_stop <- min( uatg_i_in_frame[uatg_i_in_frame > uatg_i] )
+              id_ustop <- uatg_i_in_frame > uatg_i
+              if(sum(id_ustop)>0){
+                first_new_stop <- min( uatg_i_in_frame[id_ustop] )
+              }else{
+                message(paste0("Skip variant ",i,": uATG detected but no STOP in phase"))
+                next
+              }
 
               # Compute distance and length
               stop.generated.prot.length <- (first_new_stop-uatg_i)/3
