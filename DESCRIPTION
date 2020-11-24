@@ -1,6 +1,6 @@
 Package: MORFEE
 Title: Mutation on Open Reading FramE annotation
-Version: 0.0.20200619
+Version: 0.0.20201124
 Authors@R: c(
     person(given = "Dylan",
            family = "Aïssi",
@@ -28,6 +28,7 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     stringr,
+    stringi,
     data.table,
     VariantAnnotation (>= 1.32.0),
     rtracklayer,
