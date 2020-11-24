@@ -40,12 +40,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li>
@@ -91,7 +85,7 @@
 <div id="from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#from-github" class="anchor"></a>From GitHub</h3>
-<pre><code><a href="https://devtools.r-lib.org">library("devtools")
+<pre><code><a href="https://rdrr.io/r/base/library.html">library("devtools")
 install_github("daissi/MORFEE")</a></code></pre>
 </div>
 </div>
@@ -120,18 +114,18 @@ table_annovar.pl \
 <div id="b-annotation-with-annovar-through-morfee" class="section level3">
 <h3 class="hasAnchor">
 <a href="#b-annotation-with-annovar-through-morfee" class="anchor"></a>B. Annotation with ANNOVAR through MORFEE</h3>
-<pre><code>library(VariantAnnotation)
+<pre><code><a href="https://rdrr.io/r/base/library.html">library(VariantAnnotation)
 library(MORFEE)
 
 my_raw_vcf &lt;- "inst/extdata/VCF_example.vcf"
 
 # Annotation with ANNOVAR through the wrapper function
-vcf.annovar.annotation(my_raw_vcf)</code></pre>
+vcf.annovar.annotation(my_raw_vcf)</a></code></pre>
 </div>
 <div id="annotation-with-morfee" class="section level3">
 <h3 class="hasAnchor">
 <a href="#annotation-with-morfee" class="anchor"></a>Annotation with MORFEE</h3>
-<pre><code>library("VariantAnnotation")
+<pre><code><a href="https://rdrr.io/r/base/library.html">library("VariantAnnotation")
 library("MORFEE")
 
 # Download database and create an R object used by MORFEE
@@ -156,7 +150,7 @@ my_vcf_morfee_NEW &lt;- my_vcf_morfee[!is.na(info(my_vcf_morfee)$MORFEE)]
 writeVcf(my_vcf_morfee_NEW, filename="VCF_example.hg19_multianno.morfee_anno_NEW.vcf")
 
 # Write an XLSX file with the new MORFEE field/annotation
-vcf_2_xlsx(my_vcf_morfee_NEW, file="VCF_example.hg19_multianno.morfee_anno_NEW.xlsx")</code></pre>
+vcf_2_xlsx(my_vcf_morfee_NEW, file="VCF_example.hg19_multianno.morfee_anno_NEW.xlsx")</a></code></pre>
 <p>Please see below the description of the different columns of the xlsx file:</p>
 <ul>
 <li>
@@ -304,7 +298,7 @@ vcf_2_xlsx(my_vcf_morfee_NEW, file="VCF_example.hg19_multianno.morfee_anno_NEW.x
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
