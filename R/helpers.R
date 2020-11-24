@@ -232,6 +232,11 @@ vcf_2_xlsx <- function(myvcf, file){
     df.ok[,i] <- gsub("Name\\\\x3d","",temp_unlist) # Clean gwasCatalog
   }
 
+  # Workaround the "string exceeds Excel's limit of 32,767 characters"
+  df.str.length <- apply(df.ok,2,stri_length)
+  xlsx_lim <- 32000
+  df.ok[df.str.length > xlsx_lim] <- str_trunc(df.ok[df.str.length > xlsx_lim], xlsx_lim, "right")
+  
   write_xlsx(x=df.ok, path=file)
 
 }
