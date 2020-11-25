@@ -176,6 +176,7 @@ vcf_2_ods <- function(myvcf, file){
 #'
 #' @importFrom writexl write_xlsx
 #' @importFrom stringr str_split_fixed
+#' @importFrom stringr str_trunc
 #' @importFrom stringi stri_length
 #'
 #' @export
