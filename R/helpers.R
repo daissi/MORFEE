@@ -336,7 +336,7 @@ combine.vcf.slot <- function(myvcf){
 
   df.geno <- as.data.frame(geno(myvcf))
   if(nrow(df.geno)!=0){
-    df <- cbind(df,df.geno)
+    df <- cbind(df,df.geno[df.geno$group_name=="GT",])
   }
 
  return(df)
